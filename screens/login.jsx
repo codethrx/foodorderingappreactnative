@@ -10,11 +10,13 @@ import { db } from "../config/index";
 import { useAuth } from "../context/authentication";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 const Login = () => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [status, setStatus] = React.useState({ loading: false, error: null });
   const { setUser } = useAuth();
+  const { navigate } = useNavigation();
   const signIn = async () => {
     if (!username || !password) {
       setStatus({
@@ -41,8 +43,10 @@ const Login = () => {
         setStatus({ loading: false, error: "Wrong password" });
         return;
       }
+
       await AsyncStorage.setItem("credentials", JSON.stringify(data[0]));
       setUser(data[0]);
+
       setStatus({ loading: false, error: null });
     } catch (e) {
       setStatus({ loading: false, error: "Error Authenticating the user." });

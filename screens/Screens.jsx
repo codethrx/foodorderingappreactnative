@@ -9,6 +9,7 @@ import { useAuth } from "../context/authentication";
 
 import Login from "./login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Orders } from "./modules/waiter/orders";
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -70,7 +71,7 @@ export function Screens() {
         /> */}
           <Stack.Screen
             name={user ? "Orders" : "Login"}
-            component={user ? HomeScreen : Login}
+            component={user ? Orders : Login}
           />
         </Stack.Navigator>
       )}
