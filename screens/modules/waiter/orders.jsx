@@ -1,10 +1,11 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useCart } from "../../../context/cart";
 import { db } from "../../../config";
+
 export const Orders = () => {
-  const { onItemAdd } = useCart();
+  const { onItemAdd, removedItems } = useCart();
   const [categories, setCategories] = React.useState([]);
   const [items, setItems] = React.useState([]);
   const [filteredItems, setFilteredItems] = React.useState([]);
@@ -43,6 +44,7 @@ export const Orders = () => {
     };
     getContent();
   }, []);
+
   const updateCategories = (elem) => {
     setCategories(
       categories.map((i) =>
@@ -52,7 +54,23 @@ export const Orders = () => {
     setFilteredItems(items.filter((item) => item.category === elem));
     setActiveCategory(elem);
   };
-  // console.log(filteredItems);
+  const addToCart = (item) => {
+    if (item.selected) {
+      console.log("Item already selcted");
+      return;
+    }
+    onItemAdd({ ...item, qty: 1 });
+    setItems(
+      items.map((i) => {
+        return i.name === item.name ? { ...i, selected: true } : i;
+      })
+    );
+    setFilteredItems(
+      filteredItems.map((i) => {
+        return i.name === item.name ? { ...i, selected: true } : i;
+      })
+    );
+  };
   return (
     <ScrollView className="bg-gray-200" contentContainerStyle={{ flexGrow: 1 }}>
       <ScrollView horizontal className="bg-red-400 flex-[0.04] py-4">
@@ -68,29 +86,16 @@ export const Orders = () => {
       </ScrollView>
       <View className="flex-1">
         {filteredItems.map((item) => (
-          <Text
+          <TouchableOpacity
+            onPress={() => addToCart(item)}
             key={item.slug}
-            className={`${item.selected ? "opacity-40" : "opacity-100"}`}
-            onPress={() => {
-              if (item.selected) {
-                console.log("Item already selcted");
-                return;
-              }
-              onItemAdd({ ...item, qty: 1 });
-              setItems(
-                items.map((i) => {
-                  return i.name === item.name ? { ...i, selected: true } : i;
-                })
-              );
-              setFilteredItems(
-                filteredItems.map((i) => {
-                  return i.name === item.name ? { ...i, selected: true } : i;
-                })
-              );
-            }}
+            className={`bg-slate-500 ${
+              item.selected ? "opacity-40" : "opacity-100"
+            }`}
           >
-            {item.name}
-          </Text>
+            <Image height={100} width={200} source={{ uri: item.image }} />
+            <Text>{item.name}</Text>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
