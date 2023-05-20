@@ -10,6 +10,8 @@ import { useAuth } from "../context/authentication";
 import Login from "./login";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Orders } from "./modules/waiter/orders";
+import { Cart } from "./cart/cart";
+import { CartIcon } from "./cart/cartIcon";
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +59,7 @@ function Article() {
 }
 export function Screens() {
   const { user, authStatus } = useAuth();
+  // const { navigate } = useNavigation();
   return (
     <NavigationContainer>
       {!authStatus ? (
@@ -72,7 +75,11 @@ export function Screens() {
           <Stack.Screen
             name={user ? "Orders" : "Login"}
             component={user ? Orders : Login}
+            options={{
+              headerRight: ({}) => <CartIcon />,
+            }}
           />
+          <Stack.Screen name={"Cart"} component={Cart} />
         </Stack.Navigator>
       )}
     </NavigationContainer>

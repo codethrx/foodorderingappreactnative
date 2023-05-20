@@ -8,6 +8,7 @@ export function CartProvider({ children }) {
     value: null,
   });
   const [itemsOfCart, setItemsOfCart] = useState([]);
+  console.log(itemsOfCart);
   const cartNoOfItems = itemsOfCart.length;
   const cartTotalPrice =
     cartNoOfItems > 0
@@ -16,27 +17,13 @@ export function CartProvider({ children }) {
         }, 0)
       : 0;
 
-  useEffect(() => {
-    if (cartStatus) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [cartStatus]);
-  //fns
   //Calculations
   const onItemAdd = (data) => {
     const itemExists = itemsOfCart.find((d) => d.slug === data.slug);
     if (itemExists) {
-      setItemsOfCart((prevItems) => {
-        return prevItems.map((item) =>
-          item.slug === data.slug
-            ? { ...item, qty: data.qty + item.qty }
-            : { ...item }
-        );
-      });
       return;
     }
+
     setItemsOfCart((prevItems) => [...prevItems, data]);
   };
   const onItemDelete = (slug) => {
@@ -98,5 +85,5 @@ export function CartProvider({ children }) {
   );
 }
 export function useCart() {
-  return useContext(CartCtx);
+  return useContext(Cart);
 }
