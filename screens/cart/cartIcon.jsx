@@ -11,8 +11,8 @@ export function CartIcon(props) {
         <Icon name="shopping-cart" size={20} color="black" />
       </Text>
       {cartNoOfItems >= 1 && (
-        <View className="absolute -top-4 -right-2  bg-red-600 w-4 h-4  items-center justify-center rounded-full">
-          <Text className="text-xs font-bold">{cartNoOfItems}</Text>
+        <View className="absolute -top-4 -right-2 text-white  bg-blue-900 w-4 h-4  items-center justify-center rounded-full">
+          <Text className="text-xs font-bold text-white">{cartNoOfItems}</Text>
         </View>
       )}
     </View>

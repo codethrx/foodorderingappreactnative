@@ -1,11 +1,18 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 import React from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useCart } from "../../../context/cart";
 import { db } from "../../../config";
 
 export const Orders = () => {
-  const { onItemAdd, removedItems } = useCart();
+  const { onItemAdd, disabledItems } = useCart();
   const [categories, setCategories] = React.useState([]);
   const [items, setItems] = React.useState([]);
   const [filteredItems, setFilteredItems] = React.useState([]);
@@ -55,10 +62,7 @@ export const Orders = () => {
     setActiveCategory(elem);
   };
   const addToCart = (item) => {
-    if (item.selected) {
-      console.log("Item already selcted");
-      return;
-    }
+    if (disabledItems.includes(item.slug)) return;
     onItemAdd({ ...item, qty: 1 });
     setItems(
       items.map((i) => {
@@ -73,28 +77,45 @@ export const Orders = () => {
   };
   return (
     <ScrollView className="bg-gray-200" contentContainerStyle={{ flexGrow: 1 }}>
-      <ScrollView horizontal className="bg-red-400 flex-[0.04] py-4">
+      <ScrollView
+        horizontal
+        contentContainerStyle={{ alignItems: "center" }}
+        className="flex-[0.04] py-2"
+      >
         {categories.map(({ title, active }) => (
           <Text
             onPress={() => updateCategories(title)}
-            // className={`${active ? "text-red-500" : "text-black"}`}
+            className={`
+            px-4 py-2 rounded-full mx-2
+            ${active ? "bg-blue-900 text-white" : "text-black bg-gray-300 "}`}
             key={title}
           >
             {title}
           </Text>
         ))}
       </ScrollView>
-      <View className="flex-1">
+      <View className="flex-1 flex-wrap flex-row ">
         {filteredItems.map((item) => (
           <TouchableOpacity
-            onPress={() => addToCart(item)}
             key={item.slug}
-            className={`bg-slate-500 ${
-              item.selected ? "opacity-40" : "opacity-100"
+            className={`basis-[40%] m-2 bg-white ${
+              disabledItems.includes(item.slug) ? "opacity-40" : "opacity-100"
             }`}
           >
-            <Image height={100} width={200} source={{ uri: item.image }} />
-            <Text>{item.name}</Text>
+            <Image
+              height={100}
+              className="w-full"
+              source={{ uri: item.image }}
+            />
+            <Text className="py-2 text-base text-center font-medium">
+              {item.name}
+            </Text>
+            <TouchableOpacity
+              onPress={() => addToCart(item)}
+              className="w-full bg-blue-900 items-center justify-center  my-1 py-2 "
+            >
+              <Text className="text-white">Add to Cart</Text>
+            </TouchableOpacity>
           </TouchableOpacity>
         ))}
       </View>

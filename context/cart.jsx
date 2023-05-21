@@ -3,13 +3,12 @@ const Cart = createContext();
 export function CartProvider({ children }) {
   //states and stuff
   const [cartStatus, setCartStatus] = useState(false);
-  const [removedItems, setRemovedItems] = useState([]);
+  const [disabledItems, setDisabledItems] = useState([]);
   const [cartModalStatus, setCartModalStatus] = useState({
     open: false,
     value: null,
   });
   const [itemsOfCart, setItemsOfCart] = useState([]);
-  console.log(itemsOfCart);
   const cartNoOfItems = itemsOfCart.length;
   const cartTotalPrice =
     cartNoOfItems > 0
@@ -21,6 +20,7 @@ export function CartProvider({ children }) {
   //Calculations
   const onItemAdd = (data) => {
     const itemExists = itemsOfCart.find((d) => d.slug === data.slug);
+    setDisabledItems([...disabledItems, data.slug]);
     if (itemExists) {
       return;
     }
@@ -43,11 +43,12 @@ export function CartProvider({ children }) {
   };
   const onCartItemRemove = (data) => {
     const item = itemsOfCart.find((element) => element.slug === data.slug);
+
     if (item.qty - 1 === 0) {
       setItemsOfCart((prevItems) =>
         prevItems.filter((element) => element.slug !== data.slug)
       );
-      setRemovedItems([...removedItems, data.slug]);
+      setDisabledItems(disabledItems.filter((d) => d !== data.slug));
     } else {
       setItemsOfCart((prevItems) =>
         prevItems.map((item) => {
@@ -80,8 +81,7 @@ export function CartProvider({ children }) {
         onCartItemAdd,
         onCartItemRemove,
         resetCart,
-        removedItems,
-        setRemovedItems,
+        disabledItems,
       }}
     >
       {children}

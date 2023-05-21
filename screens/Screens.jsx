@@ -58,7 +58,7 @@ function Article() {
   );
 }
 export function Screens() {
-  const { user, authStatus } = useAuth();
+  const { user, authStatus, setUser } = useAuth();
   // const { navigate } = useNavigation();
   return (
     <NavigationContainer>
@@ -76,10 +76,27 @@ export function Screens() {
             name={user ? "Orders" : "Login"}
             component={user ? Orders : Login}
             options={{
-              headerRight: ({}) => <CartIcon />,
+              headerTitleAlign: "center",
+              // headerTitleStyle: { fontFamily: "Poppins_600SemiBold" },
+              headerLeft: ({}) => user && <CartIcon />,
+              headerRight: ({}) =>
+                user && (
+                  <Text
+                    onPress={async () => {
+                      await AsyncStorage.removeItem("credentials");
+                      setUser(null);
+                    }}
+                  >
+                    Logout
+                  </Text>
+                ),
             }}
           />
-          <Stack.Screen name={"Cart"} component={Cart} />
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name={"Cart"}
+            component={Cart}
+          />
         </Stack.Navigator>
       )}
     </NavigationContainer>
