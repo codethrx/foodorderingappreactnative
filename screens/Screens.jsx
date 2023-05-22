@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Orders } from "./modules/waiter/orders";
 import { Cart } from "./cart/cart";
 import { CartIcon } from "./cart/cartIcon";
+import { useCart } from "../context/cart";
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -59,6 +60,7 @@ function Article() {
 }
 export function Screens() {
   const { user, authStatus, setUser } = useAuth();
+  const { resetCart } = useCart();
   // const { navigate } = useNavigation();
   return (
     <NavigationContainer>
@@ -87,6 +89,7 @@ export function Screens() {
                     onPress={async () => {
                       await AsyncStorage.removeItem("credentials");
                       setUser(null);
+                      resetCart();
                     }}
                   >
                     Logout

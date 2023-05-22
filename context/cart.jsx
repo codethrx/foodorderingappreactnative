@@ -62,6 +62,7 @@ export function CartProvider({ children }) {
   //
   const resetCart = () => {
     setItemsOfCart([]);
+    setDisabledItems([]);
   };
   const updateCartStatus = (value) => setCartStatus(value);
   const updateCartModalStatus = (status, value) =>

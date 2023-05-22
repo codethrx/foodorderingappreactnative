@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { collection, getDocs, query, where } from "firebase/firestore";
@@ -45,6 +46,7 @@ export const Orders = () => {
             (elem) => elem.category === formattedCategories[0].title
           )
         );
+        setStatus({ loading: false, error: null });
       } catch (e) {
         setStatus({ loading: false, error: "Error fetching data..." });
       }
@@ -75,7 +77,12 @@ export const Orders = () => {
       })
     );
   };
-  return (
+  console.log(status.loading);
+  return status.loading ? (
+    <View className="flex-1 items-center justify-center">
+      <ActivityIndicator color="rgb(30,58,138)" size="large" />
+    </View>
+  ) : (
     <ScrollView className="bg-gray-200" contentContainerStyle={{ flexGrow: 1 }}>
       <ScrollView
         horizontal

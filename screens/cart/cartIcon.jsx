@@ -1,13 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { useCart } from "../../context/cart";
 import Icon from "react-native-vector-icons/Feather";
 export function CartIcon(props) {
   const { cartNoOfItems } = useCart();
   const { navigate } = useNavigation();
   return (
-    <View className="relative">
-      <Text onPress={() => navigate("Cart")}>
+    <TouchableOpacity onPress={() => navigate("Cart")} className="relative">
+      <Text>
         <Icon name="shopping-cart" size={20} color="black" />
       </Text>
       {cartNoOfItems >= 1 && (
@@ -15,6 +15,6 @@ export function CartIcon(props) {
           <Text className="text-xs font-bold text-white">{cartNoOfItems}</Text>
         </View>
       )}
-    </View>
+    </TouchableOpacity>
   );
 }

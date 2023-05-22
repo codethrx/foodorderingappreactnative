@@ -1,4 +1,11 @@
-import { View, ScrollView, Touchable, Image, Text } from "react-native";
+import {
+  View,
+  ScrollView,
+  Touchable,
+  Image,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { useCart } from "../../context/cart";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/Entypo";
@@ -18,6 +25,14 @@ export function Cart() {
         </Text>
       </View>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="flex-1 ">
+        {itemsOfCart.length === 0 && (
+          <Text
+            className="text-base text-center"
+            style={{ fontFamily: "Poppins_600SemiBold" }}
+          >
+            No items in cart. Add items to proceed.
+          </Text>
+        )}
         {itemsOfCart.length >= 1 &&
           itemsOfCart.map((item) => (
             <View key={item.slug} className={`bg-white flex-row m-2 `}>
@@ -33,29 +48,29 @@ export function Cart() {
                   className="py-2 pl-2"
                   style={{ fontFamily: "Poppins_500Medium" }}
                 >
-                  {item.price}
+                  Rs. {item.price}
                 </Text>
                 <View className="flex flex-row w-16 ml-2  justify-between items-center">
-                  <Text
-                    className="text-base"
-                    onPress={() => onCartItemRemove(item)}
+                  <TouchableOpacity
                     style={{ fontFamily: "Poppins_500Medium" }}
+                    className="text-base text-white bg-blue-900 rounded-full h-5 w-5 items-center justify-center"
+                    onPress={() => onCartItemRemove(item)}
                   >
-                    <Icon name="minus" size={20} color="black" />
-                  </Text>
+                    <Icon name="minus" size={10} color="white" />
+                  </TouchableOpacity>
                   <Text
                     className="text-base "
                     style={{ fontFamily: "Poppins_500Medium" }}
                   >
                     {item.qty}
                   </Text>
-                  <Text
-                    className="text-base "
+                  <TouchableOpacity
                     style={{ fontFamily: "Poppins_500Medium" }}
+                    className="text-base text-white bg-blue-900 rounded-full h-5 w-5 items-center justify-center"
                     onPress={() => onCartItemAdd(item)}
                   >
-                    <Icon name="plus" size={20} color="black" />
-                  </Text>
+                    <Icon name="plus" size={10} color="white" />
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>

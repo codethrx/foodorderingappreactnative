@@ -4,6 +4,7 @@ import {
   ScrollView,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 import { db } from "../config/index";
@@ -26,7 +27,7 @@ const Login = () => {
       return;
     }
     try {
-      setStatus({ loading: false, error: null });
+      setStatus({ loading: true, error: null });
       const userExist = await getDocs(
         query(collection(db, "waiters"), where("username", "==", username))
       );
@@ -91,25 +92,35 @@ const Login = () => {
         </View>
         {status.error && (
           <Text
-            className="w-full py-2 text-base text-red-400"
+            className="w-full py-2 text-sm text-red-400"
             style={{ fontFamily: "Poppins_500Medium" }}
           >
             {status.error}
           </Text>
         )}
-        <TouchableOpacity
-          onPress={status.loading ? () => {} : signIn}
-          className={`w-full mt-4 items-center justify-center ${
-            status.loading ? "bg-gray-300" : "bg-blue-900"
-          } py-2`}
-        >
-          <Text
-            className={` text-white text-base flex items-center justify-center`}
-            style={{ fontFamily: "Poppins_500Medium" }}
+
+        {!status.loading ? (
+          <TouchableOpacity
+            onPress={status.loading ? () => {} : signIn}
+            className={`w-full mt-4 items-center justify-center ${
+              status.loading ? "bg-gray-300" : "bg-blue-900"
+            } py-2`}
           >
-            Submit
-          </Text>
-        </TouchableOpacity>
+            <Text
+              className={` text-white text-base flex items-center justify-center`}
+              style={{ fontFamily: "Poppins_500Medium" }}
+            >
+              Submit
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            onPress={status.loading ? () => {} : signIn}
+            className={`w-full mt-4 items-center justify-center ${"bg-blue-900"} py-2`}
+          >
+            <ActivityIndicator color="white" size="large" />
+          </TouchableOpacity>
+        )}
       </View>
     </ScrollView>
   );
