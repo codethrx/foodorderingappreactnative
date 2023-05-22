@@ -77,11 +77,13 @@ export function Screens() {
             component={user ? Orders : Login}
             options={{
               headerTitleAlign: "center",
-              // headerTitleStyle: { fontFamily: "Poppins_600SemiBold" },
+              headerTitleStyle: { fontFamily: "Poppins_600SemiBold" },
               headerLeft: ({}) => user && <CartIcon />,
               headerRight: ({}) =>
                 user && (
                   <Text
+                    style={{ fontFamily: "Poppins_600SemiBold" }}
+                    className="bg-blue-900 text-white p-1"
                     onPress={async () => {
                       await AsyncStorage.removeItem("credentials");
                       setUser(null);
@@ -93,7 +95,10 @@ export function Screens() {
             }}
           />
           <Stack.Screen
-            options={{ headerShown: false }}
+            options={{
+              headerShown: false,
+              headerTitleStyle: { fontFamily: "Poppins_600SemiBold" },
+            }}
             name={"Cart"}
             component={Cart}
           />

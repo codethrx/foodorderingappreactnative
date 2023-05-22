@@ -55,11 +55,22 @@ const Login = () => {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View className="flex-1 bg-gray-100 px-4 pt-28">
-        <Text className="font-semibold text-3xl py-2">Login</Text>
+        <Text
+          className="font-semibold text-3xl py-2"
+          style={{ fontFamily: "Poppins_600SemiBold" }}
+        >
+          Login
+        </Text>
         <View className="mb-2">
-          <Text className="py-2 text-base font-normal">Username:</Text>
+          <Text
+            className="py-2 text-base font-normal"
+            style={{ fontFamily: "Poppins_500Medium" }}
+          >
+            Username:
+          </Text>
           <TextInput
             className="bg-white text-black py-1 px-1"
+            style={{ fontFamily: "Poppins_500Medium" }}
             placeholder="Username"
             selectionColor={"black"}
             value={username}
@@ -70,6 +81,7 @@ const Login = () => {
           <Text className="py-2 text-base font-normal">Password:</Text>
           <TextInput
             className="bg-white text-black py-1 px-1"
+            style={{ fontFamily: "Poppins_500Medium" }}
             placeholder="Password"
             selectionColor={"black"}
             secureTextEntry
@@ -78,7 +90,10 @@ const Login = () => {
           />
         </View>
         {status.error && (
-          <Text className="w-full py-2 text-base text-red-400">
+          <Text
+            className="w-full py-2 text-base text-red-400"
+            style={{ fontFamily: "Poppins_500Medium" }}
+          >
             {status.error}
           </Text>
         )}
@@ -90,6 +105,7 @@ const Login = () => {
         >
           <Text
             className={` text-white text-base flex items-center justify-center`}
+            style={{ fontFamily: "Poppins_500Medium" }}
           >
             Submit
           </Text>

@@ -13,7 +13,9 @@ export function Cart() {
         <Text onPress={() => navigation.goBack()}>
           <Icon name="cross" size={24} color="black" />
         </Text>
-        <Text>Cart</Text>
+        <Text className="text-xl" style={{ fontFamily: "Poppins_600SemiBold" }}>
+          Cart
+        </Text>
       </View>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} className="flex-1 ">
         {itemsOfCart.length >= 1 &&
@@ -21,18 +23,35 @@ export function Cart() {
             <View key={item.slug} className={`bg-white flex-row m-2 `}>
               <Image height={100} width={200} source={{ uri: item.image }} />
               <View className="justify-center ">
-                <Text className="text-base font-bold pl-2">{item.name}</Text>
-                <Text className="py-2 pl-2">{item.price}</Text>
+                <Text
+                  className="text-base pl-2"
+                  style={{ fontFamily: "Poppins_600SemiBold" }}
+                >
+                  {item.name}
+                </Text>
+                <Text
+                  className="py-2 pl-2"
+                  style={{ fontFamily: "Poppins_500Medium" }}
+                >
+                  {item.price}
+                </Text>
                 <View className="flex flex-row w-16 ml-2  justify-between items-center">
                   <Text
                     className="text-base"
                     onPress={() => onCartItemRemove(item)}
+                    style={{ fontFamily: "Poppins_500Medium" }}
                   >
                     <Icon name="minus" size={20} color="black" />
                   </Text>
-                  <Text className="text-base ">{item.qty}</Text>
                   <Text
                     className="text-base "
+                    style={{ fontFamily: "Poppins_500Medium" }}
+                  >
+                    {item.qty}
+                  </Text>
+                  <Text
+                    className="text-base "
+                    style={{ fontFamily: "Poppins_500Medium" }}
                     onPress={() => onCartItemAdd(item)}
                   >
                     <Icon name="plus" size={20} color="black" />
@@ -43,8 +62,12 @@ export function Cart() {
           ))}
       </ScrollView>
       <View className="flex flex-row items-center justify-between p-4 flex-[0.03]">
-        <Text>Total:</Text>
-        <Text>{cartTotalPrice}</Text>
+        <Text className="text-base" style={{ fontFamily: "Poppins_500Medium" }}>
+          Total:
+        </Text>
+        <Text className="text-base" style={{ fontFamily: "Poppins_500Medium" }}>
+          {cartTotalPrice}
+        </Text>
       </View>
     </View>
   );

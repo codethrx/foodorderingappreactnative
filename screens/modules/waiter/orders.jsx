@@ -86,9 +86,10 @@ export const Orders = () => {
           <Text
             onPress={() => updateCategories(title)}
             className={`
-            px-4 py-2 rounded-full mx-2
+            px-4 py-2  rounded-full mx-2
             ${active ? "bg-blue-900 text-white" : "text-black bg-gray-300 "}`}
             key={title}
+            style={{ fontFamily: "Poppins_500Medium" }}
           >
             {title}
           </Text>
@@ -98,7 +99,7 @@ export const Orders = () => {
         {filteredItems.map((item) => (
           <TouchableOpacity
             key={item.slug}
-            className={`basis-[40%] m-2 bg-white ${
+            className={`basis-[40%] m-4 pb-0 bg-white ${
               disabledItems.includes(item.slug) ? "opacity-40" : "opacity-100"
             }`}
           >
@@ -107,14 +108,22 @@ export const Orders = () => {
               className="w-full"
               source={{ uri: item.image }}
             />
-            <Text className="py-2 text-base text-center font-medium">
+            <Text
+              className="py-2 text-base text-center font-medium"
+              style={{ fontFamily: "Poppins_500Medium" }}
+            >
               {item.name}
             </Text>
             <TouchableOpacity
               onPress={() => addToCart(item)}
-              className="w-full bg-blue-900 items-center justify-center  my-1 py-2 "
+              className="w-full bg-blue-900 items-center justify-center  my-1 mb-0 py-2 "
             >
-              <Text className="text-white">Add to Cart</Text>
+              <Text
+                className="text-white"
+                style={{ fontFamily: "Poppins_500Medium" }}
+              >
+                Add to Cart
+              </Text>
             </TouchableOpacity>
           </TouchableOpacity>
         ))}
